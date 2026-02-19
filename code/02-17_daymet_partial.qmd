@@ -24,7 +24,7 @@ Our learning objectives are to:
 #| warning: false
 
 # install.packages("sf")
-install.packages("daymetr")
+# install.packages("daymetr")
 # install.packages("remotes")
 # remotes::install_github("ropensci/USAboundaries")
 # remotes::install_github("ropensci/USAboundariesData")
@@ -125,7 +125,7 @@ In R, we'll use a package called `daymetr` that facilitates makeing queries to D
 
 The main function we'll use is called `download_daymet()`. Let's check its documentation.  
 ```{r}
-help("download_daymet")
+# help("download_daymet")
 ```
 
 From the documentation, we see we need to provide:  
@@ -201,7 +201,11 @@ daymet_all$weather[[1]]
 
 Now let's unnest the weather column.  
 ```{r}
-daymet_all_unnest 
+daymet_all_unnest <- daymet_all %>% 
+  unnest(weather) %>% 
+  pivot_wider(names_from = measurement,
+              values_from = value) %>% 
+  janitor::clean_names()
 
 daymet_all_unnest
 
@@ -216,7 +220,7 @@ Therefore, a best practice here is to pull weather data once and export it to fi
 
 Let's do that below:  
 ```{r}
-
+# write_csv(daymet_all_unnest, "../data/fieldweatherdata.csv")
 ```
 
 
